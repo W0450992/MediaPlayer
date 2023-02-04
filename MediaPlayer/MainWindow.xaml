@@ -19,16 +19,25 @@
                 <MenuItem Header="Stop"></MenuItem>
             </MenuItem>
         </Menu>
-        <Grid x:Name="mainGrid" Height="410" Width="750">
+        <Grid x:Name="mainGrid" Height="410" Width="100" HorizontalAlignment="Left">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="8*" />
+             
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="1*" />
-                <RowDefinition Height="2*" />
+                <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
+            <Button Click="OpenFile_Click" x:Name="FileOpenButton">
+                <Image Source="E:\NSCC\Winter Term 2023\Windows Programming\Assignment1MediaPlayer\MediaPlayer\open_file.png"></Image>
+            </Button>
+            <Button Click="OpenFile_Click" Grid.Row="1" x:Name="NowPlayingButton">
+                <Image Source="E:\NSCC\Winter Term 2023\Windows Programming\Assignment1MediaPlayer\MediaPlayer\musicnote.png"></Image>
+            </Button>
+            <Button Click="OpenFile_Click" Grid.Row="2" x:Name="TagEditorButton">
+                <Image Source="E:\NSCC\Winter Term 2023\Windows Programming\Assignment1MediaPlayer\MediaPlayer\edit.png"></Image>
+            </Button>
         </Grid>
     </StackPanel>
 </Window>
