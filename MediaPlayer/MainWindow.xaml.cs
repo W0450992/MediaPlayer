@@ -119,6 +119,7 @@ namespace MediaPlayer
             if (title != null && newTitle != null)
             {
                 title = newTitle;
+                
             }
             if (artist != null && newArtist != null)
             {
@@ -134,6 +135,7 @@ namespace MediaPlayer
                 int.TryParse(newYear, out temp);
                 year = (uint)temp;
             }
+            currentFile.Save();
         }
 
         private void NowPlayingButton_Click(object sender, RoutedEventArgs e)
