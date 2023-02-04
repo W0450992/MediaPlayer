@@ -10,13 +10,13 @@
         <Menu>
             <MenuItem Header="File">
                 <MenuItem  Header="Open MP3" Click="OpenFile_Click"></MenuItem>
-                <MenuItem Header="Tag MP3" Command="ApplicationCommands.Cut"></MenuItem>
+                <MenuItem Header="Tag MP3" Click="TagMP3_Click"></MenuItem>
                 <MenuItem Header="Exit" Click="Exit_Click"></MenuItem>
             </MenuItem>
             <MenuItem Header="Media">
-                <MenuItem Header="Play"></MenuItem>
-                <MenuItem Header="Pause"></MenuItem>
-                <MenuItem Header="Stop"></MenuItem>
+                <MenuItem Header="Play" Click="Play_Click"></MenuItem>
+                <MenuItem Header="Pause" Click="Pause_Click"></MenuItem>
+                <MenuItem Header="Stop" Click="Stop_Click"></MenuItem>
             </MenuItem>
         </Menu>
         <Grid x:Name="mainGrid" Height="410" Width="100" HorizontalAlignment="Left">
@@ -39,5 +39,7 @@
                 <Image Source="E:\NSCC\Winter Term 2023\Windows Programming\Assignment1MediaPlayer\MediaPlayer\edit.png"></Image>
             </Button>
         </Grid>
+        <MediaElement x:Name="myMediaPlayer" Height="100"
+            LoadedBehavior="Manual" UnloadedBehavior="Manual" />
     </StackPanel>
 </Window>

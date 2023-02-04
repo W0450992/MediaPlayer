@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,7 @@ namespace MediaPlayer
     /// </summary>
     public partial class MainWindow : Window
     {
+        TagLib.File currentFile;
         public MainWindow()
         {
             InitializeComponent();
@@ -27,7 +29,26 @@ namespace MediaPlayer
 
         private void OpenFile_Click(object sender, RoutedEventArgs e)
         {
+            string filePath;
+            //Example of instantiating an OpenFileDialog
+            OpenFileDialog fileDlg = new OpenFileDialog();
 
+            //Create a file filter
+            //fileDlg.Filter = "MP3 files (*.mp3)|*.mp3 | All files (*.*)|*.*";
+
+            //ShowDialog shows onscreen for the user
+            //By default it return true if the user selects a file and hits "Open"
+            if (fileDlg.ShowDialog() == true)
+            {
+                //The filename property stores the full path that was selected
+                filePath = fileDlg.FileName;
+
+                //Example of creating a TagLib file object, for accessing mp3 metadata
+                currentFile = TagLib.File.Create(fileDlg.FileName);
+
+                //Set the source of the media player element.
+                myMediaPlayer.Source = new Uri(fileDlg.FileName);
+            }
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
@@ -36,6 +57,26 @@ namespace MediaPlayer
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Play_Click(object sender, RoutedEventArgs e)
+        {
+            myMediaPlayer.Play();
+        }
+
+        private void Pause_Click(object sender, RoutedEventArgs e)
+        {
+            myMediaPlayer.Pause();
+        }
+
+        private void Stop_Click(object sender, RoutedEventArgs e)
+        {
+            myMediaPlayer.Stop();
+        }
+
+        private void TagMP3_Click(object sender, RoutedEventArgs e)
         {
 
         }
