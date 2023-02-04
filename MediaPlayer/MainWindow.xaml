@@ -19,5 +19,17 @@
                 <MenuItem Header="Stop"></MenuItem>
             </MenuItem>
         </Menu>
+        <Grid x:Name="mainGrid" Height="420" Width="750">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="8*" />
+                
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="2*" />
+            </Grid.RowDefinitions>
+        </Grid>
     </StackPanel>
 </Window>
