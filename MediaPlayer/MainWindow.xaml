@@ -6,7 +6,18 @@
         xmlns:local="clr-namespace:MediaPlayer"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+    <StackPanel>
+        <Menu>
+            <MenuItem Header="File">
+                <MenuItem  Header="Open MP3" Click="OpenFile_Click"></MenuItem>
+                <MenuItem Header="Tag MP3" Command="ApplicationCommands.Cut"></MenuItem>
+                <MenuItem Header="Exit" Click="Exit_Click"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Media">
+                <MenuItem Header="Play"></MenuItem>
+                <MenuItem Header="Pause"></MenuItem>
+                <MenuItem Header="Stop"></MenuItem>
+            </MenuItem>
+        </Menu>
+    </StackPanel>
 </Window>
