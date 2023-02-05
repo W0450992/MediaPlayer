@@ -72,9 +72,9 @@
                         <RowDefinition Height="1*" />
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="Title"  FontSize="20" TextAlignment="Center"></TextBlock>
-                    <TextBlock Grid.Row="1" Text="Artist"  FontSize="20" TextAlignment="Center"></TextBlock>
-                    <TextBlock Grid.Row="2" Text="Album + Year"  FontSize="20" TextAlignment="Center"></TextBlock>
+                    <TextBlock Grid.Row="0" x:Name="NPTitle" Text="Title"  FontSize="20" TextAlignment="Center"></TextBlock>
+                    <TextBlock Grid.Row="1" x:Name="NPArtist" Text="Artist"  FontSize="20" TextAlignment="Center"></TextBlock>
+                    <TextBlock Grid.Row="2" x:Name="NPAlbumYear" Text="Album + Year"  FontSize="20" TextAlignment="Center"></TextBlock>
 
                 </Grid>
 

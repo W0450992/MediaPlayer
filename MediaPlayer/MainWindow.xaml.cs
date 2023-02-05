@@ -34,7 +34,7 @@ namespace MediaPlayer
             //Example of instantiating an OpenFileDialog
             OpenFileDialog fileDlg = new OpenFileDialog();
 
-            //Create a file filter
+            //Create a file filter. only opens mp3
             fileDlg.Filter = "MP3 files (*.mp3)|*.mp3";
             
 
@@ -49,36 +49,51 @@ namespace MediaPlayer
 
                 //Example of creating a TagLib file object, for accessing mp3 metadata
                 currentFile = TagLib.File.Create(fileDlg.FileName);
+                //TagLib.File.AccessMode accessMode = TagLib.File.AccessMode.Closed;
+                
+               
 
                 //Set the source of the media player element.
                 myMediaPlayer.Source = new Uri(fileDlg.FileName);
                 var title = currentFile.Tag.Title;
-                var artist = currentFile.Tag.FirstArtist;
+                var artist = currentFile.Tag.Artists;
                 var album = currentFile.Tag.Album;
                 var year = currentFile.Tag.Year;
+                
+                // if tag exists then write to textbox
 
                 if (title != null)
                 {
                     TagTitle.Text = title.ToString();
+                    NPTitle.Text = title.ToString();
                 }
                 if (artist != null)
                 {
-                    TagArtist.Text = artist.ToString();
+                    TagArtist.Text = currentFile.Tag.Artists[0];
+                    NPArtist.Text = currentFile.Tag.Artists[0];
                 }
                 if(album != null)
                 {
                     TagAlbum.Text = album.ToString();
                 }
                 if(year != null)
+
                 {
                     TagYear.Text = year.ToString();
                 }
-
+                if(album != null && year != null)
+                {
+                    var strAlbum = album.ToString();
+                    var strYear = year.ToString();
+                    NPAlbumYear.Text = strAlbum + " (" + strYear + ")";
+                }
+                
             }
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
+            //exit application
             this.Close();
         }
 
@@ -100,14 +115,19 @@ namespace MediaPlayer
 
         private void TagMP3_Click(object sender, RoutedEventArgs e)
         {
+            // trigger collapsing of rows in grid
             showTagEditor();
 
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
+            // had to stop the media player to save and was getting an error
+            myMediaPlayer.Stop();
+            // was getting an error file was in use elsewhere and it was the media player so i set it = to null
+            myMediaPlayer.Source= null;
             var title = currentFile.Tag.Title;
-            var artist = currentFile.Tag.FirstArtist;
+            var artist = currentFile.Tag.Artists;
             var album = currentFile.Tag.Album;
             var year = currentFile.Tag.Year;
             var newTitle = TagTitle.Text;
@@ -116,28 +136,36 @@ namespace MediaPlayer
             var newYear = TagYear.Text;
             int temp;
 
+
+            //if tag exists then and text box is filled then change the tags
+           
             if (title != null && newTitle != null)
             {
-                title = newTitle;
-                
+                currentFile.Tag.Title = null;
+                currentFile.Tag.Title = newTitle;
+               
+
             }
             if (artist != null && newArtist != null)
             {
-                artist = newArtist;
+               
+                currentFile.Tag.Artists = new string[] { newArtist };
             }
             if (album != null && newAlbum != null)
             {
-                album = newAlbum;
+                currentFile.Tag.Album = newAlbum;
             }
             if (year != null && newYear != null && int.TryParse(newYear, out temp))
             {
-
+                // had to converty to unsigned int for year
                 int.TryParse(newYear, out temp);
-                year = (uint)temp;
+                currentFile.Tag.Year = (uint)temp;
             }
+            
             currentFile.Save();
         }
 
+        // changes the row size to 0 and sets the other grid size to 1* each row to imitate a new page
         private void NowPlayingButton_Click(object sender, RoutedEventArgs e)
         {
             RightGrid.RowDefinitions[1].Height = new GridLength(0);
@@ -157,6 +185,8 @@ namespace MediaPlayer
             showTagEditor();
         }
 
+
+         // sets specific rows to 0 and other rows to 1* to imitate a new page 
         private void showTagEditor()
         {
             NowPlayingGrid.RowDefinitions[0].Height = new GridLength(0);
