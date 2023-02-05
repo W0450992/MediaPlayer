@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MediaPlayer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="470" Width="800">
+        Title="MainWindow" Height="600" Width="800">
     <StackPanel>
         <Menu>
             <MenuItem Header="File">
@@ -19,13 +19,13 @@
                 <MenuItem Header="Stop" Click="Stop_Click"></MenuItem>
             </MenuItem>
         </Menu>
-        <Grid Height="410" Width="790">
+        <Grid Height="560" Width="790">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="7*" />
 
             </Grid.ColumnDefinitions>
-            <Grid x:Name="FileDialogTaskbar" Height="410" Width="100" HorizontalAlignment="Left">
+            <Grid x:Name="FileDialogTaskbar" Height="570" Width="100" HorizontalAlignment="Center" VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
 
@@ -34,6 +34,7 @@
                     <RowDefinition Height="1*" />
                     <RowDefinition Height="1*" />
                     <RowDefinition Height="1*" />
+                    <RowDefinition Height="3*" />
                 </Grid.RowDefinitions>
                 <Button Click="OpenFile_Click" x:Name="FileOpenButton">
                     <Image Source="E:\NSCC\Winter Term 2023\Windows Programming\Assignment1MediaPlayer\MediaPlayer\open_file.png"></Image>
@@ -44,29 +45,20 @@
                 <Button Click="TagEditorButton_Click" Grid.Row="2" x:Name="TagEditorButton">
                     <Image Source="E:\NSCC\Winter Term 2023\Windows Programming\Assignment1MediaPlayer\MediaPlayer\edit.png"></Image>
                 </Button>
+                <MediaElement x:Name="myMediaPlayer"
+            LoadedBehavior="Manual" UnloadedBehavior="Manual"  Grid.Row="3"/>
             </Grid>
+            
             <Grid Grid.Column="1" x:Name="RightGrid">
-
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="2*" />
-                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="1" Text="Tag Editor" Width="400" FontSize="30" TextAlignment="Center"></TextBlock>
-                <TextBox Grid.Row="2" x:Name="TagTitle"   Text="Title" FontSize="16" TextAlignment="Center" Width="400" ></TextBox>
-                <TextBox Grid.Row="3"  x:Name="TagArtist" Text="Artist" Width="400" FontSize="16" TextAlignment="Center" ></TextBox>
-                <TextBox Grid.Row="4"  x:Name="TagAlbum" Text="Album" Width="400" FontSize="16" TextAlignment="Center"></TextBox>
-                <TextBox Grid.Row="5"  x:Name="TagYear" Text="Year" Width="400" FontSize="16" TextAlignment="Center"></TextBox>
+                
+                <local:TagEditor x:Name="TagEditor1"  Height="400" VerticalAlignment="Top"/>
 
-                <Button Grid.Row="6" Width="200" Content="Save" Click="Save_Click" FontSize="16"></Button>
-
-                <Grid Grid.Row="7" x:Name="NowPlayingGrid">
+                <Grid Grid.Row="1" x:Name="NowPlayingGrid">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*" />
                         <RowDefinition Height="1*" />
@@ -78,7 +70,7 @@
 
                 </Grid>
 
-                <Grid Grid.Row="8" x:Name="PlayBar">
+                <Grid Grid.Row="2" x:Name="PlayBar">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="1*" />
@@ -99,7 +91,6 @@
             </Grid>
         </Grid>
 
-        <MediaElement x:Name="myMediaPlayer" Height="100"
-            LoadedBehavior="Manual" UnloadedBehavior="Manual" />
+       
     </StackPanel>
 </Window>

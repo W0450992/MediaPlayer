@@ -23,20 +23,69 @@ namespace MediaPlayer
     public partial class MainWindow : Window
     {
         TagLib.File currentFile;
+        TagEditor TagEditor = new TagEditor();
+
         public MainWindow()
         {
             InitializeComponent();
+            TagEditor1.Save_Clicked += TagEditor_Save_Clicked;
+        }
+
+        private void TagEditor_Save_Clicked(object? sender, EventArgs e)
+        {
+            // had to stop the media player to save and was getting an error
+            myMediaPlayer.Stop();
+            // was getting an error file was in use elsewhere and it was the media player so i set it = to null
+            myMediaPlayer.Source = null;
+            var title = currentFile.Tag.Title;
+            var artist = currentFile.Tag.Artists;
+            var album = currentFile.Tag.Album;
+            var year = currentFile.Tag.Year;
+            var newTitle = TagEditor1.TagTitle.Text;
+            var newArtist = TagEditor1.TagArtist.Text;
+            var newAlbum = TagEditor1.TagAlbum.Text;
+            var newYear = TagEditor1.TagYear.Text;
+            int temp;
+
+
+            //if tag exists then and text box is filled then change the tags
+
+            if (title != null && newTitle != null)
+            {
+                currentFile.Tag.Title = null;
+                currentFile.Tag.Title = newTitle;
+
+
+            }
+            if (artist != null && newArtist != null)
+            {
+
+                currentFile.Tag.Artists = new string[] { newArtist };
+            }
+            if (album != null && newAlbum != null)
+            {
+                currentFile.Tag.Album = newAlbum;
+            }
+            if (year != null && newYear != null && int.TryParse(newYear, out temp))
+            {
+                // had to converty to unsigned int for year
+                int.TryParse(newYear, out temp);
+                currentFile.Tag.Year = (uint)temp;
+            }
+
+            currentFile.Save();
         }
 
         private void OpenFile_Click(object sender, RoutedEventArgs e)
         {
+            
             string filePath;
             //Example of instantiating an OpenFileDialog
             OpenFileDialog fileDlg = new OpenFileDialog();
 
             //Create a file filter. only opens mp3
             fileDlg.Filter = "MP3 files (*.mp3)|*.mp3";
-            
+
 
             //ShowDialog shows onscreen for the user
             //By default it return true if the user selects a file and hits "Open"
@@ -45,13 +94,13 @@ namespace MediaPlayer
                 //The filename property stores the full path that was selected
                 filePath = fileDlg.FileName;
 
-                
+
 
                 //Example of creating a TagLib file object, for accessing mp3 metadata
                 currentFile = TagLib.File.Create(fileDlg.FileName);
                 //TagLib.File.AccessMode accessMode = TagLib.File.AccessMode.Closed;
-                
-               
+
+
 
                 //Set the source of the media player element.
                 myMediaPlayer.Source = new Uri(fileDlg.FileName);
@@ -59,39 +108,39 @@ namespace MediaPlayer
                 var artist = currentFile.Tag.Artists;
                 var album = currentFile.Tag.Album;
                 var year = currentFile.Tag.Year;
-                
+
                 // if tag exists then write to textbox
 
                 if (title != null)
                 {
-                    TagTitle.Text = title.ToString();
+                    TagEditor1.TagTitle.Text = title.ToString();
                     NPTitle.Text = title.ToString();
                 }
                 if (artist != null)
                 {
-                    TagArtist.Text = currentFile.Tag.Artists[0];
+                    TagEditor1.TagArtist.Text = currentFile.Tag.Artists[0];
                     NPArtist.Text = currentFile.Tag.Artists[0];
                 }
-                if(album != null)
+                if (album != null)
                 {
-                    TagAlbum.Text = album.ToString();
+                    TagEditor1.TagAlbum.Text = album.ToString();
                 }
-                if(year != null)
+                if (year != null)
 
                 {
-                    TagYear.Text = year.ToString();
+                    TagEditor1.TagYear.Text = year.ToString();
                 }
-                if(album != null && year != null)
+                if (album != null && year != null)
                 {
                     var strAlbum = album.ToString();
                     var strYear = year.ToString();
                     NPAlbumYear.Text = strAlbum + " (" + strYear + ")";
                 }
-                
+
             }
         }
 
-        private void Exit_Click(object sender, RoutedEventArgs e)
+    private void Exit_Click(object sender, RoutedEventArgs e)
         {
             //exit application
             this.Close();
@@ -120,65 +169,16 @@ namespace MediaPlayer
 
         }
 
-        private void Save_Click(object sender, RoutedEventArgs e)
-        {
-            // had to stop the media player to save and was getting an error
-            myMediaPlayer.Stop();
-            // was getting an error file was in use elsewhere and it was the media player so i set it = to null
-            myMediaPlayer.Source= null;
-            var title = currentFile.Tag.Title;
-            var artist = currentFile.Tag.Artists;
-            var album = currentFile.Tag.Album;
-            var year = currentFile.Tag.Year;
-            var newTitle = TagTitle.Text;
-            var newArtist = TagArtist.Text;
-            var newAlbum = TagAlbum.Text;
-            var newYear = TagYear.Text;
-            int temp;
 
-
-            //if tag exists then and text box is filled then change the tags
-           
-            if (title != null && newTitle != null)
-            {
-                currentFile.Tag.Title = null;
-                currentFile.Tag.Title = newTitle;
-               
-
-            }
-            if (artist != null && newArtist != null)
-            {
-               
-                currentFile.Tag.Artists = new string[] { newArtist };
-            }
-            if (album != null && newAlbum != null)
-            {
-                currentFile.Tag.Album = newAlbum;
-            }
-            if (year != null && newYear != null && int.TryParse(newYear, out temp))
-            {
-                // had to converty to unsigned int for year
-                int.TryParse(newYear, out temp);
-                currentFile.Tag.Year = (uint)temp;
-            }
-            
-            currentFile.Save();
-        }
-
-        // changes the row size to 0 and sets the other grid size to 1* each row to imitate a new page
+    // changes the row size to 0 and sets the other grid size to 1* each row to imitate a new page
         private void NowPlayingButton_Click(object sender, RoutedEventArgs e)
-        {
-            RightGrid.RowDefinitions[1].Height = new GridLength(0);
-            RightGrid.RowDefinitions[2].Height = new GridLength(0);
-            RightGrid.RowDefinitions[3].Height = new GridLength(0);
-            RightGrid.RowDefinitions[4].Height = new GridLength(0);
-            RightGrid.RowDefinitions[5].Height = new GridLength(0);
-            RightGrid.RowDefinitions[6].Height = new GridLength(0);
+            {
+                RightGrid.RowDefinitions[0].Height = new GridLength(0);
 
-            NowPlayingGrid.RowDefinitions[0].Height = new GridLength(1, GridUnitType.Star);
-            NowPlayingGrid.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Star);
-            NowPlayingGrid.RowDefinitions[2].Height = new GridLength(1, GridUnitType.Star);
-        }
+                NowPlayingGrid.RowDefinitions[0].Height = new GridLength(1, GridUnitType.Star);
+                NowPlayingGrid.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Star);
+                NowPlayingGrid.RowDefinitions[2].Height = new GridLength(1, GridUnitType.Star);
+            }
 
         private void TagEditorButton_Click(object sender, RoutedEventArgs e)
         {
@@ -193,12 +193,8 @@ namespace MediaPlayer
             NowPlayingGrid.RowDefinitions[1].Height = new GridLength(0);
             NowPlayingGrid.RowDefinitions[2].Height = new GridLength(0);
 
-            RightGrid.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Star);
-            RightGrid.RowDefinitions[2].Height = new GridLength(1, GridUnitType.Star);
-            RightGrid.RowDefinitions[3].Height = new GridLength(1, GridUnitType.Star);
-            RightGrid.RowDefinitions[4].Height = new GridLength(1, GridUnitType.Star);
-            RightGrid.RowDefinitions[5].Height = new GridLength(1, GridUnitType.Star);
-            RightGrid.RowDefinitions[6].Height = new GridLength(1, GridUnitType.Star);
+            RightGrid.RowDefinitions[0].Height = new GridLength(3, GridUnitType.Star);
+           
         }
     }
 }
